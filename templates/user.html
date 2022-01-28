@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../static/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../static/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>WeCare-ประวัติส่วนตัว</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../static/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+        function autoTab2(obj, typeCheck) {
+            if (typeCheck == 1) {
+                var pattern = new String("_-____-_____-_-__"); // กำหนดรูปแบบในนี้
+                var pattern_ex = new String("-"); // กำหนดสัญลักษณ์หรือเครื่องหมายที่ใช้แบ่งในนี้     
+            } else {
+                var pattern = new String("___-___-____"); // กำหนดรูปแบบในนี้
+                var pattern_ex = new String("-"); // กำหนดสัญลักษณ์หรือเครื่องหมายที่ใช้แบ่งในนี้                 
+            }
+            var returnText = new String("");
+            var obj_l = obj.value.length;
+            var obj_l2 = obj_l - 1;
+            for (i = 0; i < pattern.length; i++) {
+                if (obj_l2 == i && pattern.charAt(i + 1) == pattern_ex) {
+                    returnText += obj.value + pattern_ex;
+                    obj.value = returnText;
+                }
+            }
+            if (obj_l >= pattern.length) {
+                obj.value = obj.value.substr(0, pattern.length);
+            }
+        }
+    </script>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message in messages %}
+    <script type="text/javascript">
+        Swal.fire({
+            icon: 'success',
+            text: 'แก้ไขข้อมูลเรียบร้อย',
+        });
+    </script>
+    {% endfor %} {% endif %} {% endwith %}
+    <div class="wrapper">
+        <div class="sidebar" data-image="../static/img/sidebar-5.jpg">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="dashboard" class="simple-text">
+                        <img src="./static/img/hospital.png" width="50 px">WeCare
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li>
+                        <a class="nav-link" href="dashboard">
+                            <i class="nc-icon nc-chart-pie-35"></i>
+                            <p>หน้าหลัก</p>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="user">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>{% if session.logged_in %} {{session.username}} {% else %} กรุณาเข้าสู่ระบบ {% endif %}
+                            </p>
+                        </a>
+                    </li>
+                    {% if session.user_role != "dev" %}
+                    <li>
+                        <a class="nav-link" href="evaluate">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>ประเมินอาการ</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="notify">
+                            <i class="nc-icon nc-paper-2"></i>
+                            <p>แจ้งป่วย</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if session.user_role == "dev" %}
+                    <li>
+                        <a class="nav-link" href="assistant">
+                            <i class="nc-icon nc-ambulance"></i>
+                            <p>ขอความช่วยเหลือ</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="document">
+                            <i class="nc-icon nc-atom"></i>
+                            <p>Document</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row" style="display: flex;
+                                                align-items: center;
+                                                justify-content: center;">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">ประวัติส่วนตัว</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>Username</label>
+                                                    <input type="text" class="form-control" placeholder="Username"
+                                                        value="{{ result['username'] }}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-1">
+                                                <div class="form-group">
+                                                    <label for="exampleInputEmail1">Email address</label>
+                                                    <input type="email" class="form-control"
+                                                        value="{{ result['email'] }}" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>เลขที่บัตรประชาชน</label>
+                                                    <input type="text" class="form-control" name="id_card"
+                                                        placeholder="_-____-_____-_-__" onkeyup="autoTab2(this,1)"
+                                                        value="{{ result['id_card'] }}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-1">
+                                                <div class="form-group">
+                                                    <label>เบอร์โทรศัพท์</label>
+                                                    <input type="text" class="form-control" name="user_tel"
+                                                        placeholder="___-___-____" onkeyup="autoTab2(this,2)"
+                                                        value="{{result['user_tel']}}" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>ชื่อ</label>
+                                                    <input type="text" class="form-control" name="name"
+                                                        value="{{ result['name'] }}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pl-1">
+                                                <div class="form-group">
+                                                    <label>นามสกุล</label>
+                                                    <input type="text" class="form-control" name="surname"
+                                                        placeholder="Last Name" value="{{result['surname']}}" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>ที่อยุ่</label>
+                                                    <input type="text" class="form-control" name="user_add"
+                                                        placeholder="Home Address" value="{{result['user_add']}}"
+                                                        disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 pr-1">
+                                                <div class="form-group">
+                                                    <label>จังหวัด</label>
+                                                    <input type="text" class="form-control" name="user_prov"
+                                                        placeholder="จังหวัด" value="{{result['user_prov']}}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 px-1">
+                                                <div class="form-group">
+                                                    <label>อำเภอ</label>
+                                                    <input type="text" class="form-control" name="user_dist"
+                                                        placeholder="อำเภอ" value="{{result['user_dist']}}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 pl-1">
+                                                <div class="form-group">
+                                                    <label>ตำบล</label>
+                                                    <input type="text" class="form-control" name="user_sub_dist"
+                                                        placeholder="ตำบล" value="{{result['user_sub_dist']}}" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 pl-1">
+                                                <div class="form-group">
+                                                    <label>รหัสไปษณีย์</label>
+                                                    <input type="text" class="form-control" name="user_zipcode"
+                                                        placeholder="รหัสไปษณีย์" value="{{result['user_zipcode']}}"
+                                                        disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <center><button style="width: 250px;" type="button" class="btn btn-warning"
+                                                data-toggle="modal" data-target="#myModal">แก้ไข</button></center>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <p>แก้ไขข้อมูล</p>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('user_update') }}" method="POST">
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type="text" class="form-control" placeholder="username"
+                                            value="{{ result['username'] }}" name="user_name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email address</label>
+                                        <input type="email" class="form-control" value="{{ result['email'] }}"
+                                            name="email" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>เลขที่บัตรประชาชน</label>
+                                        <input type="text" class="form-control" placeholder="_-____-_____-_-__"
+                                            onkeyup="autoTab2(this,1)" value="{{ result['id_card'] }}" name="id_card"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pl-1">
+                                    <div class="form-group">
+                                        <label>เบอร์โทรศัพท์</label>
+                                        <input type="text" class="form-control" placeholder="___-___-____"
+                                            onkeyup="autoTab2(this,2)" value="{{result['user_tel']}}" name="user_tel"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 pr-1">
+                                    <div class="form-group">
+                                        <label>ชื่อ</label>
+                                        <input type="text" class="form-control" placeholder="ชื่อจริง"
+                                            value="{{ result['name'] }}" name="name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 pl-1">
+                                    <div class="form-group">
+                                        <label>นามสกุล</label>
+                                        <input type="text" class="form-control" placeholder="Last Name"
+                                            value="{{result['surname']}}" name="surname" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>ที่อยุ่</label>
+                                        <input type="text" class="form-control" placeholder="Home Address"
+                                            value="{{result['user_add']}}" name="user_add" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 pr-1">
+                                    <div class="form-group">
+                                        <label>จังหวัด</label>
+                                        <input type="text" class="form-control" placeholder="จังหวัด"
+                                            value="{{result['user_prov']}}" name="user_prov" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 px-1">
+                                    <div class="form-group">
+                                        <label>อำเภอ</label>
+                                        <input type="text" class="form-control" placeholder="อำเภอ"
+                                            value="{{result['user_dist']}}" name="user_dist" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 pl-1">
+                                    <div class="form-group">
+                                        <label>ตำบล</label>
+                                        <input type="text" class="form-control" placeholder="ตำบล"
+                                            value="{{result['user_sub_dist']}}" name="user_sub_dist" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 pl-1">
+                                    <div class="form-group">
+                                        <label>รหัสไปษณีย์</label>
+                                        <input type="text" class="form-control" placeholder="รหัสไปษณีย์"
+                                            value="{{result['user_zipcode']}}" name="user_zipcode" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="row">
+                                <div class="col-md-3 pr-1">
+                                    <button type="submit" class="btn btn-success">ยืนยัน</button>
+                                </div>
+                                <div class="col-md-3 px-1">
+                                    <button type="submit" class="btn btn-danger" class="close" data-dismiss="modal"
+                                        aria-label="Close">ยกเลิก</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+<script src="../static/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="../static/js/core/popper.min.js" type="text/javascript"></script>
+<script src="../static/js/core/bootstrap.min.js" type="text/javascript"></script>
+<script src="../static/js/plugins/bootstrap-switch.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<script src="../static/js/plugins/chartist.min.js"></script>
+<script src="../static/js/plugins/bootstrap-notify.js"></script>
+<script src="../static/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
+<script src="../static/js/demo.js"></script>
+
+</html>

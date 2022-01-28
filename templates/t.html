@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message in messages %}
+    <script type="text/javascript">
+        var strAlert = "{{messages}}" ;
+        strAlert = strAlert.replace("message", "")
+        strAlert = strAlert.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+        Swal.fire({
+        title: strAlert,
+        text: strAlert,
+        })
+    </script>
+    {% endfor %} {% endif %} {% endwith %}
+    {{result['prov']}}<br>
+    {{result['age']}}<br>
+    {{result['dits']}}<br>
+    {{result['gender']}}<br>
+    {{result['person']}}<br>
+    {{result['flexRadioDefault1']}}<br>
+    {{result['flexRadioDefault2']}}<br>
+    {{result['flexRadioDefault3']}}<br>
+    {{result['flexRadioDefault4']}}<br>
+    {{result['list']}}<br>
+
+</body>
+</html>

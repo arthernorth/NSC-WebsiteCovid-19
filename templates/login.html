@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WeCare - เข้าสู่ระบบ</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="../static/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message in messages %}
+    <script type="text/javascript">
+        Swal.fire({
+            icon: 'error',
+            text: 'กรุณาใส่ Email หรือ รหัสผ่านให้ถูกต้อง, ลองใหม่อีกครั้ง',
+        });
+    </script>
+    {% endfor %} {% endif %} {% endwith %}
+    {%if message == "err" %}
+    <script type="text/javascript">
+        Swal.fire({
+            icon: 'info',
+            text: 'กรุณา login หรือ Register ก่อน',
+        });
+    </script>
+    {% endif %}
+    <div class="main">
+        <!-- Sing in  Form -->
+        <section class="sign-in">
+            <div class="container">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="../static/img/banner.jpg" width="300px" alt="sing up image"></figure>
+                    </div>
+                    <div class="signin-form">
+                        <h2 class="form-title">Login</h2>
+                        <form method="POST" class="register-form" id="login-form" action='{{ url_for("login")}}'>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="Email" name="email" id="email" placeholder="Your E-mail" />
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="pwd" id="pwd" placeholder="Password" />
+                            </div>
+                            <div class="form-group">
+                                <a href="{{ url_for('register') }}" class="signup-image-link">Create an account</a>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Login" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script src="../static/vendor/jquery/jquery.min.js"></script>
+    <script src="../static/js/main.js"></script>
+</body>
+<!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>

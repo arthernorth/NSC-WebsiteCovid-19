@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="apple-touch-icon" sizes="76x76" href="../static/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../static/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>WeCare-หน้าหลัก</title>
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+        name='viewport' />
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- CSS Files -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../static/css/light-bootstrap-dashboard.css?v=2.0.0 " rel="stylesheet" />
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %} {% for message in messages %}
+    <script type="text/javascript">
+        Swal.fire({
+            icon: 'success',
+            text: 'Login Sucessfully',
+        });
+    </script>
+    {% endfor %} {% endif %} {% endwith %}
+    <div class="wrapper">
+        <div class="sidebar" data-image="../static/img/sidebar-5.jpg">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="dashboard" class="simple-text">
+                        <img src="./static/img/hospital.png" width="50 px">WeCare
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="dashboard">
+                            <i class="nc-icon nc-chart-pie-35"></i>
+                            <p>หน้าหลัก</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="user">
+                            <i class="nc-icon nc-circle-09"></i>
+                            <p>
+                                {% if session.logged_in %} {{session.username}} {% else %} กรุณาเข้าสู่ระบบ {% endif %}
+                            </p>
+                        </a>
+                    </li>
+                    {% if session.user_role != "dev" %}
+                    <li>
+                        <a class="nav-link" href="evaluate">
+                            <i class="nc-icon nc-notes"></i>
+                            <p>ประเมินอาการ</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="notify">
+                            <i class="nc-icon nc-paper-2"></i>
+                            <p>แจ้งป่วย</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if session.user_role == "dev" %}
+                    <li>
+                        <a class="nav-link" href="assistant">
+                            <i class="nc-icon nc-ambulance"></i>
+                            <p>ขอความช่วยเหลือ</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="document">
+                            <i class="nc-icon nc-atom"></i>
+                            <p>Document</p>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg " color-on-scroll="500">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#pablo"> Dashboard </a> {% if session.logged_in %}
+                    <a href="logout">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
+                            <path fill-rule="evenodd"
+                                d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+                        </svg>
+                    </a> {% else %}
+                    <a href="login">log in</a> {% endif %}
+                    <button href="" class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                        <span class="navbar-toggler-bar burger-lines"></span>
+                    </button>
+            </nav>
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="row" style="align-items: center;
+                                            justify-content: center;"">
+                        <!-- TODO: Dashboard here -->
+                        <iframe title="PlotMap(3) - หน้า 4" width="1680" height="1080" src="https://app.powerbi.com/reportEmbed?reportId=0c65f2f4-5f4c-440c-8f62-a229a8526391&autoAuth=true&ctid=8c1832ea-a96d-413e-bf7d-9fe4d608e00b&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXNvdXRoLWVhc3QtYXNpYS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+                        <!-- TODO: Dashboard here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../static/js/core/jquery.3.2.1.min.js" type="text/javascript"></script>
+<script src="../static/js/core/popper.min.js" type="text/javascript"></script>
+<script src="../static/js/core/bootstrap.min.js" type="text/javascript"></script>
+<script src="../static/js/plugins/bootstrap-switch.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<script src="../static/js/plugins/chartist.min.js"></script>
+<script src="../static/js/plugins/bootstrap-notify.js"></script>
+<script src="../static/js/light-bootstrap-dashboard.js?v=2.0.0 " type="text/javascript"></script>
+<script src="../static/js/demo.js"></script>
+
+</html>

@@ -1,0 +1,47 @@
+<div class="sidebar">
+    <div class="sidebar-wrapper">
+        <div class="logo">
+            <a href="http://www.creative-tim.com" class="simple-text">
+                LOGO
+            </a>
+        </div>
+        <ul class="nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="dashboard">
+                    <i class="nc-icon nc-chart-pie-35"></i>
+                    <p>หน้าหลัก</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="user">
+                    <i class="nc-icon nc-circle-09"></i>
+                    <p>
+                        {% if session.logged_in %}
+                            {{session.username}}
+                        {% else %}
+                            กรุณาเข้าสู่ระบบ
+                        {% endif %}
+                    </p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="evaluate">
+                    <i class="nc-icon nc-notes"></i>
+                    <p>ประเมินอาการ</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="notify">
+                    <i class="nc-icon nc-paper-2"></i>
+                    <p>แจ้งป่วย</p>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="document">
+                    <i class="nc-icon nc-atom"></i>
+                    <p>Document</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

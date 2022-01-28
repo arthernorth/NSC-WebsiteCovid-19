@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "rifi2k.format-html-in-php",
+        "sophisticode.php-formatter",
+        "formulahendry.auto-close-tag"
+    ]
+}
